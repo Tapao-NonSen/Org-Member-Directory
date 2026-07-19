@@ -36,6 +36,8 @@ tapao-org-member-directory:
             color_label: "สีป้ายกำกับ (HEX)"
             sort_order_label: "ลำดับการแสดงผล"
             is_visible_label: "เปิดใช้งานการแสดงผล"
+            is_archived_label: "เก็บเข้ากรุ (Archived)"
+            is_archived_help: "ตำแหน่งที่เก็บเข้ากรุจะไม่แสดงในตัวเลือกตอนเพิ่มสมาชิกใหม่ แต่สมาชิกที่มีตำแหน่งนี้อยู่แล้วจะยังคงมีตำแหน่งนี้อยู่"
             delete_button: "ลบตำแหน่ง"
             delete_confirmation: "คุณแน่ใจหรือไม่ว่าต้องการลบตำแหน่งนี้? สมาชิกในตำแหน่งนี้จะเปลี่ยนเป็นสมาชิกที่ไม่มีตำแหน่งโดยอัตโนมัติ"
             empty_text: "ยังไม่มีการเพิ่มตำแหน่งในระบบ"
@@ -46,6 +48,7 @@ tapao-org-member-directory:
             col_actions: "การจัดการ"
             visible: "แสดงผล"
             hidden: "ซ่อน"
+            archived: "เก็บเข้ากรุแล้ว"
 
         members:
             title: "จัดการข้อมูลสมาชิก"

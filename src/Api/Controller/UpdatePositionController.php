@@ -50,6 +50,7 @@ class UpdatePositionController implements RequestHandlerInterface
             'color' => $position->color,
             'sortOrder' => $position->sort_order,
             'isVisible' => $position->is_visible,
+            'isArchived' => (bool) $position->is_archived,
         ];
     }
 }

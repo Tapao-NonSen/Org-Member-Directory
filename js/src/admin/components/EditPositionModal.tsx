@@ -9,6 +9,7 @@ export interface PositionData {
   color?: string | null;
   sortOrder: number;
   isVisible: boolean;
+  isArchived?: boolean;
 }
 
 export interface EditPositionModalAttrs extends IInternalModalAttrs {
@@ -21,6 +22,7 @@ export default class EditPositionModal extends Modal<EditPositionModalAttrs> {
   color!: Stream<string>;
   sortOrder!: Stream<number>;
   isVisible!: Stream<boolean>;
+  isArchived!: Stream<boolean>;
 
   oninit(vnode: any) {
     super.oninit(vnode);
@@ -31,6 +33,7 @@ export default class EditPositionModal extends Modal<EditPositionModalAttrs> {
     this.color = Stream(pos?.color || '#3b82f6');
     this.sortOrder = Stream(pos?.sortOrder ?? 0);
     this.isVisible = Stream(pos?.isVisible ?? true);
+    this.isArchived = Stream(pos?.isArchived ?? false);
   }
 
   className() {
@@ -97,6 +100,20 @@ export default class EditPositionModal extends Modal<EditPositionModalAttrs> {
         </div>
 
         <div className="Form-group">
+          <label className="checkbox">
+            <input
+              type="checkbox"
+              checked={this.isArchived()}
+              onchange={(e: Event) => this.isArchived((e.target as HTMLInputElement).checked)}
+            />
+            {app.translator.trans('tapao-org-member-directory.admin.positions.is_archived_label')}
+          </label>
+          <div className="helpText">
+            {app.translator.trans('tapao-org-member-directory.admin.positions.is_archived_help')}
+          </div>
+        </div>
+
+        <div className="Form-group">
           <Button
             className="Button Button--primary EditPositionModal-save"
             loading={this.loading}
@@ -130,6 +147,7 @@ export default class EditPositionModal extends Modal<EditPositionModalAttrs> {
           color: this.color() || null,
           sortOrder: Number(this.sortOrder()),
           isVisible: this.isVisible(),
+          isArchived: this.isArchived(),
         },
       })
       .then(() => {

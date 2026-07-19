@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $sort_order
  * @property string|null $color
  * @property bool $is_visible
+ * @property bool $is_archived
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  */
@@ -24,11 +25,12 @@ class Position extends AbstractModel
 {
     protected $table = 'member_directory_positions';
 
-    protected $fillable = ['name', 'sort_order', 'color', 'is_visible'];
+    protected $fillable = ['name', 'sort_order', 'color', 'is_visible', 'is_archived'];
 
     protected $casts = [
         'sort_order' => 'integer',
         'is_visible' => 'bool',
+        'is_archived' => 'bool',
     ];
 
     /**

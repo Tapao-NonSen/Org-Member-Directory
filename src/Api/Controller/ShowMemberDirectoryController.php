@@ -56,6 +56,7 @@ class ShowMemberDirectoryController implements RequestHandlerInterface
                 'color' => $position->color,
                 'sortOrder' => $position->sort_order,
                 'isVisible' => $position->is_visible,
+                'isArchived' => (bool) $position->is_archived,
                 'members' => $position->members
                     ->filter(fn (MemberRecord $r) => $r->user !== null)
                     ->map(fn (MemberRecord $r) => $this->serializeRecord($r, false))

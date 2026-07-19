@@ -75,9 +75,13 @@ export default class EditMemberRecordModal extends Modal<EditMemberRecordModalAt
       '': app.translator.trans('tapao-org-member-directory.admin.members.position_none') as string,
     };
 
+    const currentPosId = this.attrs.record?.positionId;
+
     (this.attrs.positions || []).forEach((pos) => {
       if (pos.id) {
-        positionOptions[String(pos.id)] = pos.name;
+        if (!pos.isArchived || pos.id === currentPosId) {
+          positionOptions[String(pos.id)] = pos.name;
+        }
       }
     });
 

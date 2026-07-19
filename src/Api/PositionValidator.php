@@ -65,6 +65,10 @@ final class PositionValidator
             $data['is_visible'] = (bool) Arr::get($body, 'isVisible');
         }
 
+        if (Arr::has($body, 'isArchived')) {
+            $data['is_archived'] = (bool) Arr::get($body, 'isArchived');
+        }
+
         if (! empty($errors)) {
             throw new ValidationException($errors);
         }

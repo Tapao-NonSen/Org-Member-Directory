@@ -44,8 +44,12 @@ tapao-org-member-directory:
             col_sort: "Sort Order"
             col_visible: "Visibility"
             col_actions: "Actions"
+            is_visible_label: "Visible on directory page"
+            is_archived_label: "Archived Position"
+            is_archived_help: "Archived positions will not show up in the member creation dropdown, but existing members will keep their position."
             visible: "Visible"
             hidden: "Hidden"
+            archived: "Archived"
 
         members:
             title: "Manage Member Records"

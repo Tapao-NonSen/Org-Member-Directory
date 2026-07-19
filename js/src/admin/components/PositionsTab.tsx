@@ -77,6 +77,11 @@ export default class PositionsTab extends Component<PositionsTabAttrs> {
                         {app.translator.trans('tapao-org-member-directory.admin.positions.hidden')}
                       </span>
                     )}
+                    {pos.isArchived && (
+                      <span className="OrgMemberDirectory-statusPill" style={{ marginLeft: '4px', backgroundColor: '#e2e8f0', color: '#475569' }}>
+                        {app.translator.trans('tapao-org-member-directory.admin.positions.archived')}
+                      </span>
+                    )}
                   </td>
                   <td>
                     <div className="ButtonSet">
