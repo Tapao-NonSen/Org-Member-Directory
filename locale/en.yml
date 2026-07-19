@@ -11,3 +11,6 @@ tapao-org-member-directory:
 
     admin:
         title: "Member Directory"
+
+        permissions:
+            view_member_directory_label: "View the member directory"

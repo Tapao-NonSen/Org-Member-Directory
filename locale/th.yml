@@ -11,3 +11,6 @@ tapao-org-member-directory:
 
     admin:
         title: "ธรรมเนียบสมาชิก"
+
+        permissions:
+            view_member_directory_label: "ดูธรรมเนียบสมาชิก"
