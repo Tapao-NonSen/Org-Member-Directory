@@ -42,13 +42,23 @@ export default class MemberDirectoryPage extends Page {
       });
   }
 
+  hero(): any {
+    return (
+      <header className="Hero MemberDirectoryHero">
+        <div className="container">
+          <h2 className="Hero-title">
+            {app.translator.trans('tapao-org-member-directory.forum.page.title')}
+          </h2>
+        </div>
+      </header>
+    );
+  }
+
   view(): any {
     return (
       <div className="MemberDirectoryPage">
+        {this.hero()}
         <div className="container">
-          <h2 className="MemberDirectoryPage-title">
-            {app.translator.trans('tapao-org-member-directory.forum.page.title')}
-          </h2>
           {this.loading ? (
             <LoadingIndicator />
           ) : (

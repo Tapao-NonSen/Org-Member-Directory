@@ -74,24 +74,25 @@ export default class MemberCard extends Component<MemberCardAttrs> {
   }
 
   formatTenure(member: any): string {
-    const granularity = app.forum.attribute('member-directory.date_granularity') || 'year';
+    const granularity = app.forum.attribute('memberDirectoryDateGranularity') || 'year';
+    const yearFormat = app.forum.attribute('memberDirectoryYearFormat') || 'be';
     
     const formatStr = (dateStr: string | null): string => {
       if (!dateStr) return '';
       const d = new Date(dateStr);
       if (isNaN(d.getTime())) return '';
       
-      const bYear = d.getFullYear() + 543;
+      const year = yearFormat === 'be' ? d.getFullYear() + 543 : d.getFullYear();
       
       if (granularity === 'year') {
-        return `${bYear}`;
+        return `${year}`;
       } else if (granularity === 'month') {
         const month = d.toLocaleString('th-TH', { month: 'short' });
-        return `${month} ${bYear}`;
+        return `${month} ${year}`;
       } else {
         const day = d.getDate();
         const month = d.toLocaleString('th-TH', { month: 'short' });
-        return `${day} ${month} ${bYear}`;
+        return `${day} ${month} ${year}`;
       }
     };
 

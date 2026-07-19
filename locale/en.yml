@@ -80,8 +80,12 @@ tapao-org-member-directory:
             granularity_year: "Year only (e.g. 2567 - 2568)"
             granularity_month: "Month & Year (e.g. Jan 2567 - Dec 2568)"
             granularity_full: "Full Date (e.g. 15 Jan 2567 - 31 Dec 2568)"
-            cards_per_row_label: "Cards Per Row"
-            cards_per_row_help: "Number of member cards displayed per row on desktop screens."
+            cards_per_row_label: "Cards per row"
+            cards_per_row_help: "How many members to display per row on large screens."
+            year_format_label: "Year Format"
+            year_format_help: "Choose whether to display dates in Christian Era (CE/AD) or Buddhist Era (BE)."
+            year_format_ce: "Christian Era (CE / AD)"
+            year_format_be: "Buddhist Era (BE)"
 
         import:
             title: "Import Members from Group"

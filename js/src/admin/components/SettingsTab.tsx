@@ -7,6 +7,7 @@ import Stream from 'flarum/common/utils/Stream';
 export default class SettingsTab extends Component {
   dateGranularity!: Stream<string>;
   cardsPerRow!: Stream<string>;
+  yearFormat!: Stream<string>;
   isSaving: boolean = false;
 
   oninit(vnode: any) {
@@ -17,6 +18,9 @@ export default class SettingsTab extends Component {
     );
     this.cardsPerRow = Stream(
       app.data.settings['member-directory.cards_per_row'] || '4'
+    );
+    this.yearFormat = Stream(
+      app.data.settings['member-directory.year_format'] || 'be'
     );
   }
 
@@ -32,6 +36,11 @@ export default class SettingsTab extends Component {
       '3': '3',
       '4': '4',
       '6': '6',
+    };
+
+    const yearFormatOptions = {
+      be: app.translator.trans('tapao-org-member-directory.admin.settings.year_format_be') as string,
+      ce: app.translator.trans('tapao-org-member-directory.admin.settings.year_format_ce') as string,
     };
 
     return (
@@ -64,6 +73,18 @@ export default class SettingsTab extends Component {
           </div>
 
           <div className="Form-group">
+            <label>{app.translator.trans('tapao-org-member-directory.admin.settings.year_format_label')}</label>
+            <div className="helpText">
+              {app.translator.trans('tapao-org-member-directory.admin.settings.year_format_help')}
+            </div>
+            <Select
+              options={yearFormatOptions}
+              value={this.yearFormat()}
+              onchange={(val: string) => this.yearFormat(val)}
+            />
+          </div>
+
+          <div className="Form-group">
             <Button
               type="submit"
               className="Button Button--primary"
@@ -88,11 +109,13 @@ export default class SettingsTab extends Component {
         body: {
           'member-directory.date_granularity': this.dateGranularity(),
           'member-directory.cards_per_row': this.cardsPerRow(),
+          'member-directory.year_format': this.yearFormat(),
         },
       })
       .then(() => {
         app.data.settings['member-directory.date_granularity'] = this.dateGranularity();
         app.data.settings['member-directory.cards_per_row'] = this.cardsPerRow();
+        app.data.settings['member-directory.year_format'] = this.yearFormat();
         this.isSaving = false;
         app.alerts.show({ type: 'success' }, app.translator.trans('core.admin.settings.saved_message'));
         m.redraw();

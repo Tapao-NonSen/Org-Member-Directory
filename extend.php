@@ -43,6 +43,8 @@ return [
     (new Extend\Settings)
         ->default('member-directory.date_granularity', 'year')
         ->default('member-directory.cards_per_row', '4')
+        ->default('member-directory.year_format', 'be')
         ->serializeToForum('memberDirectoryDateGranularity', 'member-directory.date_granularity')
-        ->serializeToForum('memberDirectoryCardsPerRow', 'member-directory.cards_per_row'),
+        ->serializeToForum('memberDirectoryCardsPerRow', 'member-directory.cards_per_row')
+        ->serializeToForum('memberDirectoryYearFormat', 'member-directory.year_format'),
 ];
