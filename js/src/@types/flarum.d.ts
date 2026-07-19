@@ -80,3 +80,15 @@ declare module 'flarum/common/utils/Stream' {
   function Stream<T>(initialValue?: T): Stream<T>;
   export default Stream;
 }
+
+declare module 'flarum/common/extenders' {
+  const Extend: {
+    Admin: new () => {
+      page(component: any): any;
+      setting(callback: () => any, priority?: number): any;
+      permission(callback: () => any, type?: string, priority?: number): any;
+    };
+    [key: string]: any;
+  };
+  export default Extend;
+}
