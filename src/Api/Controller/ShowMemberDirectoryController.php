@@ -37,7 +37,12 @@ class ShowMemberDirectoryController implements RequestHandlerInterface
         $cohortFilter = Arr::get($request->getQueryParams(), 'cohort');
         $cohortFilter = is_string($cohortFilter) && $cohortFilter !== '' ? $cohortFilter : null;
 
-        $positions = Position::where('is_visible', true)
+        $positionsQuery = Position::query();
+        if (! $actor->isAdmin()) {
+            $positionsQuery->where('is_visible', true);
+        }
+
+        $positions = $positionsQuery
             ->orderBy('sort_order')
             ->with(['members' => function ($query) {
                 $query->current()->with('user')->orderBy('sort_order');
@@ -50,6 +55,7 @@ class ShowMemberDirectoryController implements RequestHandlerInterface
                 'name' => $position->name,
                 'color' => $position->color,
                 'sortOrder' => $position->sort_order,
+                'isVisible' => $position->is_visible,
                 'members' => $position->members
                     ->filter(fn (MemberRecord $r) => $r->user !== null)
                     ->map(fn (MemberRecord $r) => $this->serializeRecord($r, false))

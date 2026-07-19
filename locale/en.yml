@@ -1,6 +1,6 @@
 tapao-org-member-directory:
     lib:
-        # Shared strings, filled in as components are built.
+        # Shared strings
 
     forum:
         nav:
@@ -14,3 +14,73 @@ tapao-org-member-directory:
 
         permissions:
             view_member_directory_label: "View the member directory"
+
+        nav:
+            positions_button: "Positions"
+            members_button: "Members"
+            settings_button: "General Settings"
+            import_button: "Import Members"
+
+        positions:
+            title: "Manage Positions"
+            create_button: "Add New Position"
+            create_title: "Add Position"
+            edit_title: "Edit Position"
+            name_label: "Position Name"
+            color_label: "Badge Color (HEX)"
+            sort_order_label: "Sort Order"
+            is_visible_label: "Visible in Directory"
+            delete_button: "Delete Position"
+            delete_confirmation: "Are you sure you want to delete this position? Members in this position will automatically become positionless."
+            empty_text: "No positions created yet."
+            col_name: "Position Name"
+            col_color: "Color"
+            col_sort: "Sort Order"
+            col_visible: "Visibility"
+            col_actions: "Actions"
+            visible: "Visible"
+            hidden: "Hidden"
+
+        members:
+            title: "Manage Member Records"
+            create_button: "Add Member Record"
+            create_title: "Add Member Record"
+            edit_title: "Edit Member Record"
+            user_label: "Forum User"
+            user_placeholder: "Type username to search..."
+            position_label: "Position"
+            position_none: "-- No Position --"
+            cohort_label: "Cohort / Year"
+            started_at_label: "Started At (YYYY-MM-DD)"
+            ended_at_label: "Ended At (leave blank for current member)"
+            sort_order_label: "Sort Order"
+            status_active: "Current"
+            status_past: "Past"
+            delete_button: "Delete Record"
+            delete_confirmation: "Are you sure you want to delete this member record from the directory? (The forum user account will NOT be deleted)."
+            empty_text: "No member records in the directory yet."
+            col_user: "User"
+            col_position: "Position"
+            col_cohort: "Cohort"
+            col_dates: "Tenure"
+            col_status: "Status"
+            col_actions: "Actions"
+
+        settings:
+            title: "Directory Settings"
+            date_granularity_label: "Date Display Granularity"
+            date_granularity_help: "Controls how tenure dates are displayed on the directory page."
+            granularity_year: "Year only (e.g. 2567 - 2568)"
+            granularity_month: "Month & Year (e.g. Jan 2567 - Dec 2568)"
+            granularity_full: "Full Date (e.g. 15 Jan 2567 - 31 Dec 2568)"
+            cards_per_row_label: "Cards Per Row"
+            cards_per_row_help: "Number of member cards displayed per row on desktop screens."
+
+        import:
+            title: "Import Members from Group"
+            description: "One-time setup tool: copies users from a Flarum group into member directory records. Users who already exist in the directory will be skipped."
+            group_label: "Select Group"
+            group_select_placeholder: "-- Select Group --"
+            submit_button: "Import Members"
+            success_result: "Successfully imported {created} members ({skipped} existing members skipped)."
+

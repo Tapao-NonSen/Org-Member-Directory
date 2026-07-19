@@ -1,6 +1,6 @@
 tapao-org-member-directory:
     lib:
-        # ข้อความที่ใช้ร่วมกัน จะเพิ่มเมื่อสร้างคอมโพเนนต์
+        # Shared strings
 
     forum:
         nav:
@@ -14,3 +14,73 @@ tapao-org-member-directory:
 
         permissions:
             view_member_directory_label: "ดูธรรมเนียบสมาชิก"
+
+        nav:
+            positions_button: "ตำแหน่ง"
+            members_button: "สมาชิก"
+            settings_button: "ตั้งค่าทั่วไป"
+            import_button: "นำเข้าสมาชิก"
+
+        positions:
+            title: "จัดการตำแหน่ง"
+            create_button: "เพิ่มตำแหน่งใหม่"
+            create_title: "เพิ่มตำแหน่ง"
+            edit_title: "แก้ไขตำแหน่ง"
+            name_label: "ชื่อตำแหน่ง"
+            color_label: "สีป้ายกำกับ (HEX)"
+            sort_order_label: "ลำดับการแสดงผล"
+            is_visible_label: "เปิดใช้งานการแสดงผล"
+            delete_button: "ลบตำแหน่ง"
+            delete_confirmation: "คุณแน่ใจหรือไม่ว่าต้องการลบตำแหน่งนี้? สมาชิกในตำแหน่งนี้จะเปลี่ยนเป็นสมาชิกที่ไม่มีตำแหน่งโดยอัตโนมัติ"
+            empty_text: "ยังไม่มีการเพิ่มตำแหน่งในระบบ"
+            col_name: "ชื่อตำแหน่ง"
+            col_color: "สี"
+            col_sort: "ลำดับ"
+            col_visible: "สถานะการแสดงผล"
+            col_actions: "การจัดการ"
+            visible: "แสดงผล"
+            hidden: "ซ่อน"
+
+        members:
+            title: "จัดการข้อมูลสมาชิก"
+            create_button: "เพิ่มรายชื่อสมาชิก"
+            create_title: "เพิ่มรายชื่อสมาชิก"
+            edit_title: "แก้ไขรายชื่อสมาชิก"
+            user_label: "สมาชิกเว็บบอร์ด"
+            user_placeholder: "พิมพ์ชื่อผู้ใช้เพื่อค้นหา..."
+            position_label: "ตำแหน่ง"
+            position_none: "-- ไม่ระบุตำแหน่ง --"
+            cohort_label: "รุ่น / ปีการศึกษา"
+            started_at_label: "วันที่เริ่มดำรงตำแหน่ง (YYYY-MM-DD)"
+            ended_at_label: "วันที่สิ้นสุดดำรงตำแหน่ง (ว่างไว้หากเป็นปัจจุบัน)"
+            sort_order_label: "ลำดับ"
+            status_active: "ปัจจุบัน"
+            status_past: "ในอดีต"
+            delete_button: "ลบรายชื่อ"
+            delete_confirmation: "คุณแน่ใจหรือไม่ว่าต้องการลบรายชื่อสมาชิกนี้ออกจากธรรมเนียบ? (บัญชีสมาชิกเว็บบอร์ดจะไม่ถูกลบ)"
+            empty_text: "ยังไม่มีรายชื่อสมาชิกในธรรมเนียบ"
+            col_user: "สมาชิก"
+            col_position: "ตำแหน่ง"
+            col_cohort: "รุ่น"
+            col_dates: "ระยะเวลา"
+            col_status: "สถานะ"
+            col_actions: "การจัดการ"
+
+        settings:
+            title: "ตั้งค่าระบบ"
+            date_granularity_label: "ความละเอียดการแสดงผลวันที่"
+            date_granularity_help: "กำหนดระดับการแสดงผลวันที่ดำรงตำแหน่งในหน้าธรรมเนียบสมาชิก"
+            granularity_year: "แสดงเฉพาะปี (เช่น 2567 - 2568)"
+            granularity_month: "แสดงเดือนและปี (เช่น ม.ค. 2567 - ธ.ค. 2568)"
+            granularity_full: "แสดงวันที่แบบเต็ม (เช่น 15 ม.ค. 2567 - 31 ธ.ค. 2568)"
+            cards_per_row_label: "จำนวนการ์ดต่อแถว"
+            cards_per_row_help: "กำหนดจำนวนการ์ดสมาชิกที่จะแสดงในหนึ่งแถวบนหน้าจอเดสก์ท็อป"
+
+        import:
+            title: "นำเข้าสมาชิกจากกลุ่มผู้ใช้"
+            description: "คัดลอกรายชื่อผู้ใช้จากกลุ่มที่เลือกเข้าสู่ธรรมเนียบสมาชิกเป็นครั้งแรก ผู้ใช้เดิมที่มีรายชื่อในธรรมเนียบอยู่แล้วจะถูกข้ามโดยอัตโนมัติ"
+            group_label: "เลือกกลุ่มผู้ใช้"
+            group_select_placeholder: "-- เลือกกลุ่มผู้ใช้ --"
+            submit_button: "นำเข้าสมาชิก"
+            success_result: "นำเข้าสำเร็จ {created} คน (ข้ามสมาชิกที่มีอยู่แล้ว {skipped} คน)"
+
