@@ -1,7 +1,8 @@
 import Component from 'flarum/common/Component';
 import app from 'flarum/forum/app';
 import Link from 'flarum/common/components/Link';
-import avatar from 'flarum/common/helpers/avatar';
+// @ts-expect-error - flarum/common/components/Avatar doesn't have type definitions in current flarum-tsconfig
+import Avatar from 'flarum/common/components/Avatar';
 
 export interface MemberCardAttrs {
   member: any;
@@ -26,7 +27,7 @@ export default class MemberCard extends Component<MemberCardAttrs> {
     // Avatar
     const avatarEl = userModel ? (
       <Link href={app.route.user(userModel)}>
-        {avatar(userModel, { className: 'MemberCard-avatar' })}
+        <Avatar user={userModel} className="MemberCard-avatar" />
       </Link>
     ) : (
       <span className="Avatar MemberCard-avatar" />
