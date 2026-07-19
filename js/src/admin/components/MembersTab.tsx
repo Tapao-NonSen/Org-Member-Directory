@@ -69,7 +69,7 @@ export default class MembersTab extends Component<MembersTabAttrs> {
             {app.translator.trans('tapao-org-member-directory.admin.members.empty_text')}
           </div>
         ) : (
-          <table className="Table OrgMemberDirectory-table">
+          <table className="OrgMemberDirectory-table">
             <thead>
               <tr>
                 <th>{app.translator.trans('tapao-org-member-directory.admin.members.col_user')}</th>
@@ -111,9 +111,9 @@ export default class MembersTab extends Component<MembersTabAttrs> {
                     </td>
                     <td>
                       {isPast ? (
-                        <span className="Badge">{app.translator.trans('tapao-org-member-directory.admin.members.status_past')}</span>
+                        <span className="OrgMemberDirectory-statusPill">{app.translator.trans('tapao-org-member-directory.admin.members.status_past')}</span>
                       ) : (
-                        <span className="Badge Badge--success">{app.translator.trans('tapao-org-member-directory.admin.members.status_active')}</span>
+                        <span className="OrgMemberDirectory-statusPill OrgMemberDirectory-statusPill--success">{app.translator.trans('tapao-org-member-directory.admin.members.status_active')}</span>
                       )}
                     </td>
                     <td>

@@ -40,7 +40,7 @@ export default class PositionsTab extends Component<PositionsTabAttrs> {
             {app.translator.trans('tapao-org-member-directory.admin.positions.empty_text')}
           </div>
         ) : (
-          <table className="Table OrgMemberDirectory-table">
+          <table className="OrgMemberDirectory-table">
             <thead>
               <tr>
                 <th>{app.translator.trans('tapao-org-member-directory.admin.positions.col_name')}</th>
@@ -69,11 +69,11 @@ export default class PositionsTab extends Component<PositionsTabAttrs> {
                   <td>{pos.sortOrder}</td>
                   <td>
                     {pos.isVisible ? (
-                      <span className="Badge Badge--success">
+                      <span className="OrgMemberDirectory-statusPill OrgMemberDirectory-statusPill--success">
                         {app.translator.trans('tapao-org-member-directory.admin.positions.visible')}
                       </span>
                     ) : (
-                      <span className="Badge">
+                      <span className="OrgMemberDirectory-statusPill">
                         {app.translator.trans('tapao-org-member-directory.admin.positions.hidden')}
                       </span>
                     )}

@@ -1,6 +1,7 @@
 import Page from 'flarum/common/components/Page';
 import app from 'flarum/forum/app';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
+import extractText from 'flarum/common/utils/extractText';
 import PositionSection from './PositionSection';
 import PastMembersSection from './PastMembersSection';
 import MemberCard from './MemberCard';
@@ -18,7 +19,7 @@ export default class MemberDirectoryPage extends Page {
 
   oncreate(vnode: any): void {
     super.oncreate(vnode);
-    app.setTitle(app.translator.trans('tapao-org-member-directory.forum.page.title'));
+    app.setTitle(extractText(app.translator.trans('tapao-org-member-directory.forum.page.title')));
   }
 
   loadData(): void {
