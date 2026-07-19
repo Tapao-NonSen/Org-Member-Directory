@@ -8,6 +8,12 @@ tapao-org-member-directory:
 
         page:
             title: "Member Directory"
+            loading: "Loading directory..."
+            empty_text: "No current members found."
+            past_empty_text: "No past members found."
+            past_members_heading: "Past Members"
+            tenure_present: "Present"
+            tenure_started: "Started"
 
     admin:
         title: "Member Directory"

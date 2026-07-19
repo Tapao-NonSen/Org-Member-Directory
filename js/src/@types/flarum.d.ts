@@ -104,3 +104,18 @@ declare module 'flarum/common/extenders' {
   };
   export default Extend;
 }
+
+declare module 'flarum/common/components/Link' {
+  import Component from 'flarum/common/Component';
+  export default class Link extends Component<any> {}
+}
+
+declare module 'flarum/common/components/LinkButton' {
+  import Component from 'flarum/common/Component';
+  export default class LinkButton extends Component<any> {}
+}
+
+declare module 'flarum/common/helpers/avatar' {
+  export default function avatar(user: any, attrs?: any): any;
+}
+

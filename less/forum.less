@@ -1,2 +1,138 @@
 // tapao/org-member-directory — forum styles
-// Populated in Phase 4 (MemberDirectoryPage, PositionSection, MemberCard).
+
+.MemberDirectoryPage {
+  .MemberDirectoryPage-title {
+    margin-bottom: 30px;
+    font-weight: 600;
+  }
+  .MemberDirectoryPage-empty {
+    text-align: center;
+    padding: 50px 0;
+    color: var(--muted-color);
+  }
+  .MemberDirectoryPage-pastTitle {
+    margin-top: 50px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--control-bg);
+    padding-bottom: 10px;
+    font-weight: 600;
+  }
+}
+
+.PositionSection,
+.PastMembersSection {
+  margin-bottom: 40px;
+}
+
+.PositionSection-title,
+.PastMembersSection-title {
+  margin-bottom: 20px;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.MemberGrid {
+  display: grid;
+  grid-template-columns: repeat(var(--member-directory-cards-per-row, 4), 1fr);
+  gap: 20px;
+
+  @media (max-width: 991px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @media (max-width: 767px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.MemberCard {
+  background: var(--control-bg);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid transparent;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-color: var(--primary-color);
+  }
+
+  &--muted {
+    opacity: 0.8;
+    background: transparent;
+    border-color: var(--control-bg);
+
+    &:hover {
+      opacity: 1;
+      border-color: var(--control-bg);
+      box-shadow: none;
+      transform: none;
+    }
+  }
+
+  .MemberCard-header {
+    margin-bottom: 15px;
+    
+    .MemberCard-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: inline-block;
+      line-height: 80px;
+      font-size: 32px;
+      margin: 0 auto;
+    }
+  }
+
+  .MemberCard-body {
+    .MemberCard-name {
+      display: block;
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+      color: var(--heading-color);
+      text-decoration: none;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .MemberCard-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+
+    .MemberCard-positionBadge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #fff;
+      background-color: var(--primary-color); // fallback if color not set
+    }
+
+    .MemberCard-cohortBadge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-color);
+      background-color: var(--control-bg);
+      border: 1px solid var(--control-color);
+    }
+
+    .MemberCard-tenure {
+      font-size: 0.85rem;
+      color: var(--muted-color);
+    }
+  }
+}

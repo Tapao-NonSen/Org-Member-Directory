@@ -8,6 +8,12 @@ tapao-org-member-directory:
 
         page:
             title: "ธรรมเนียบสมาชิก"
+            loading: "กำลังโหลดข้อมูลธรรมเนียบ..."
+            empty_text: "ยังไม่มีสมาชิกปัจจุบัน"
+            past_empty_text: "ยังไม่มีอดีตสมาชิก"
+            past_members_heading: "อดีตสมาชิก"
+            tenure_present: "ปัจจุบัน"
+            tenure_started: "เริ่ม"
 
     admin:
         title: "ธรรมเนียบสมาชิก"
