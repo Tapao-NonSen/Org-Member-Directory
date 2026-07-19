@@ -1,4 +1,4 @@
-# Member Directory (ธรรมเนียบสมาชิก)
+# Member Directory
 
 An org-chart-style member directory for [Flarum](https://flarum.org) 2.x — a curated `/members` page listing members by position, split into current and past members. Built for the NGBC forum (ngbc.kku.ac.th).
 
