@@ -49,7 +49,8 @@ export default class EditPositionModal extends Modal<EditPositionModalAttrs> {
           <label>{app.translator.trans('tapao-org-member-directory.admin.positions.name_label')}</label>
           <input
             className="FormControl"
-            bidi={this.name}
+            value={this.name()}
+            oninput={(e: Event) => this.name((e.target as HTMLInputElement).value)}
             placeholder="e.g. ประธาน, รองประธาน"
             required
           />
@@ -67,7 +68,8 @@ export default class EditPositionModal extends Modal<EditPositionModalAttrs> {
             <input
               type="text"
               className="FormControl OrgMemberDirectory-colorHex"
-              bidi={this.color}
+              value={this.color()}
+              oninput={(e: Event) => this.color((e.target as HTMLInputElement).value)}
               placeholder="#3b82f6"
             />
           </div>
@@ -78,7 +80,8 @@ export default class EditPositionModal extends Modal<EditPositionModalAttrs> {
           <input
             type="number"
             className="FormControl"
-            bidi={this.sortOrder}
+            value={this.sortOrder()}
+            oninput={(e: Event) => this.sortOrder(Number((e.target as HTMLInputElement).value))}
           />
         </div>
 

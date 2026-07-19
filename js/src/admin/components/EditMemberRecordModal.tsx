@@ -136,7 +136,8 @@ export default class EditMemberRecordModal extends Modal<EditMemberRecordModalAt
           <label>{app.translator.trans('tapao-org-member-directory.admin.members.name_label', {}, 'Name Option')}</label>
           <input
             className="FormControl"
-            bidi={this.name}
+            value={this.name()}
+            oninput={(e: Event) => this.name((e.target as HTMLInputElement).value)}
             placeholder="Custom Name (optional)"
           />
         </div>
@@ -154,7 +155,8 @@ export default class EditMemberRecordModal extends Modal<EditMemberRecordModalAt
           <label>{app.translator.trans('tapao-org-member-directory.admin.members.cohort_label')}</label>
           <input
             className="FormControl"
-            bidi={this.cohort}
+            value={this.cohort()}
+            oninput={(e: Event) => this.cohort((e.target as HTMLInputElement).value)}
             placeholder="e.g. รุ่น 1, 2568"
           />
         </div>
@@ -166,7 +168,8 @@ export default class EditMemberRecordModal extends Modal<EditMemberRecordModalAt
               <input
                 type="date"
                 className="FormControl"
-                bidi={this.startedAt}
+                value={this.startedAt()}
+                oninput={(e: Event) => this.startedAt((e.target as HTMLInputElement).value)}
               />
             </div>
             <div>
@@ -174,7 +177,8 @@ export default class EditMemberRecordModal extends Modal<EditMemberRecordModalAt
               <input
                 type="date"
                 className="FormControl"
-                bidi={this.endedAt}
+                value={this.endedAt()}
+                oninput={(e: Event) => this.endedAt((e.target as HTMLInputElement).value)}
               />
             </div>
           </div>
@@ -185,7 +189,8 @@ export default class EditMemberRecordModal extends Modal<EditMemberRecordModalAt
           <input
             type="number"
             className="FormControl"
-            bidi={this.sortOrder}
+            value={this.sortOrder()}
+            oninput={(e: Event) => this.sortOrder(Number((e.target as HTMLInputElement).value))}
           />
         </div>
 

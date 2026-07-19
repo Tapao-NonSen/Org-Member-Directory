@@ -10,6 +10,7 @@ export default [
         icon: 'fas fa-id-card',
         label: app.translator.trans('tapao-org-member-directory.admin.permissions.view_member_directory_label'),
         permission: 'member-directory.view',
+        allowGuest: true,
       }),
       'view',
       90

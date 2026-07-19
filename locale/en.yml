@@ -54,6 +54,7 @@ tapao-org-member-directory:
             edit_title: "Edit Member Record"
             user_label: "Forum User"
             user_placeholder: "Type username to search..."
+            name_label: "Custom Name (Optional)"
             position_label: "Position"
             position_none: "-- No Position --"
             cohort_label: "Cohort / Year"
@@ -84,6 +85,10 @@ tapao-org-member-directory:
 
         import:
             title: "Import Members from Group"
+            csv_title: "Import via CSV"
+            csv_description: "Upload a CSV file with headers: username, name, position_id, cohort, started_at, ended_at, sort_order"
+            csv_submit_button: "Import CSV"
+            csv_success_result: "Successfully imported! Created {created} records and updated {updated}."
             description: "One-time setup tool: copies users from a Flarum group into member directory records. Users who already exist in the directory will be skipped."
             group_label: "Select Group"
             group_select_placeholder: "-- Select Group --"

@@ -54,6 +54,7 @@ tapao-org-member-directory:
             edit_title: "แก้ไขรายชื่อสมาชิก"
             user_label: "สมาชิกเว็บบอร์ด"
             user_placeholder: "พิมพ์ชื่อผู้ใช้เพื่อค้นหา..."
+            name_label: "ชื่อที่ต้องการแสดง (ไม่บังคับ)"
             position_label: "ตำแหน่ง"
             position_none: "-- ไม่ระบุตำแหน่ง --"
             cohort_label: "รุ่น / ปีการศึกษา"
@@ -84,6 +85,10 @@ tapao-org-member-directory:
 
         import:
             title: "นำเข้าสมาชิกจากกลุ่มผู้ใช้"
+            csv_title: "นำเข้าข้อมูลผ่านไฟล์ CSV"
+            csv_description: "อัปโหลดไฟล์ CSV ที่มีหัวตาราง: username, name, position_id, cohort, started_at, ended_at, sort_order"
+            csv_submit_button: "อัปโหลดและนำเข้า CSV"
+            csv_success_result: "นำเข้าข้อมูลสำเร็จ! สร้างรายการใหม่ {created} รายการ และอัปเดต {updated} รายการ"
             description: "คัดลอกรายชื่อผู้ใช้จากกลุ่มที่เลือกเข้าสู่ธรรมเนียบสมาชิกเป็นครั้งแรก ผู้ใช้เดิมที่มีรายชื่อในธรรมเนียบอยู่แล้วจะถูกข้ามโดยอัตโนมัติ"
             group_label: "เลือกกลุ่มผู้ใช้"
             group_select_placeholder: "-- เลือกกลุ่มผู้ใช้ --"
