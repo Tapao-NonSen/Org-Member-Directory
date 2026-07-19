@@ -1,6 +1,7 @@
 import Page from 'flarum/common/components/Page';
 import app from 'flarum/forum/app';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
+// @ts-expect-error - flarum/common/utils/extractText doesn't have type definitions in current flarum-tsconfig
 import extractText from 'flarum/common/utils/extractText';
 import PositionSection from './PositionSection';
 import PastMembersSection from './PastMembersSection';

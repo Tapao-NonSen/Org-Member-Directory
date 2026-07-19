@@ -11,22 +11,29 @@ export interface MemberCardAttrs {
 export default class MemberCard extends Component<MemberCardAttrs> {
   view() {
     const { member, muted = false } = this.attrs;
-    const user = member.user;
+    let userModel = member.user;
+    
+    // If the user is a raw JSON object (from our API) instead of a Flarum model,
+    // push it into the Flarum store so avatar() and app.route.user() can use their getters.
+    if (userModel && typeof userModel.slug !== 'function') {
+      userModel = app.store.pushObject({ type: 'users', id: String(userModel.id), attributes: userModel });
+      member.user = userModel;
+    }
     
     // Use custom name if provided, otherwise fallback to Flarum display name
-    const displayName = member.name || user?.displayName || 'Unknown';
+    const displayName = member.name || (userModel ? userModel.displayName() : 'Unknown');
     
     // Avatar
-    const avatarEl = user ? (
-      <Link href={app.route.user(user)}>
-        {avatar(user, { className: 'MemberCard-avatar' })}
+    const avatarEl = userModel ? (
+      <Link href={app.route.user(userModel)}>
+        {avatar(userModel, { className: 'MemberCard-avatar' })}
       </Link>
     ) : (
       <span className="Avatar MemberCard-avatar" />
     );
 
-    const nameEl = user ? (
-      <Link href={app.route.user(user)} className="MemberCard-name">
+    const nameEl = userModel ? (
+      <Link href={app.route.user(userModel)} className="MemberCard-name">
         {displayName}
       </Link>
     ) : (
