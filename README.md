@@ -28,8 +28,6 @@ Enable the extension in the admin panel, then create positions and add members u
 
 ## Development
 
-Docs live in [docs/](docs/): design in `DESIGN.md`, roadmap in `PLAN.md`, current status in `handoff.md`.
-
 ```sh
 cd js
 npm install
