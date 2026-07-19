@@ -1,0 +1,9 @@
+includes:
+    - vendor/flarum/phpstan/extension.neon
+
+parameters:
+    level: max
+    paths:
+        - src
+        - extend.php
+        - migrations

@@ -1,0 +1,13 @@
+tapao-org-member-directory:
+    lib:
+        # Shared strings, filled in as components are built.
+
+    forum:
+        nav:
+            member_directory_link: "Member Directory"
+
+        page:
+            title: "Member Directory"
+
+    admin:
+        title: "Member Directory"

@@ -1,0 +1,11 @@
+{
+    "extends": "flarum-tsconfig",
+    "include": ["src"],
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "tapao/org-member-directory/forum": ["./src/forum"],
+            "tapao/org-member-directory/admin": ["./src/admin"]
+        }
+    }
+}

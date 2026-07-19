@@ -1,0 +1,20 @@
+{
+    "name": "@tapao/org-member-directory",
+    "private": true,
+    "version": "0.1.0",
+    "scripts": {
+        "dev": "webpack --config=node_modules/flarum-webpack-config --watch",
+        "build": "webpack --config=node_modules/flarum-webpack-config",
+        "build:production": "NODE_ENV=production npm run build",
+        "analyze": "ANALYZER=true npm run build",
+        "format": "prettier --write src"
+    },
+    "devDependencies": {
+        "flarum-tsconfig": "^2.0.0",
+        "flarum-webpack-config": "^3.0.4",
+        "prettier": "^3.9.5",
+        "typescript": "^5.9.3",
+        "webpack": "^5.108.4",
+        "webpack-cli": "^7.2.1"
+    }
+}

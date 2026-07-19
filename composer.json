@@ -1,0 +1,41 @@
+{
+    "name": "tapao/org-member-directory",
+    "description": "Org-chart-style member directory for Flarum, split into current and past members.",
+    "keywords": ["flarum", "member-directory"],
+    "type": "flarum-extension",
+    "license": "MIT",
+    "require": {
+        "php": "^8.3",
+        "flarum/core": "^2.0"
+    },
+    "require-dev": {
+        "flarum/phpstan": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Tapao\\OrgMemberDirectory\\": "src/"
+        }
+    },
+    "extra": {
+        "flarum-extension": {
+            "title": "Member Directory",
+            "category": "feature",
+            "icon": {
+                "name": "fas fa-address-book",
+                "backgroundColor": "#1c2e4a",
+                "color": "#ffffff"
+            }
+        },
+        "flarum-cli": {
+            "modules": {
+                "js": true,
+                "css": true,
+                "locale": true
+            }
+        }
+    },
+    "scripts": {
+        "analyse:phpstan": "phpstan analyse",
+        "clear-cache:phpstan": "phpstan clear-result-cache"
+    }
+}

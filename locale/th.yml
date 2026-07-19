@@ -1,0 +1,13 @@
+tapao-org-member-directory:
+    lib:
+        # ข้อความที่ใช้ร่วมกัน จะเพิ่มเมื่อสร้างคอมโพเนนต์
+
+    forum:
+        nav:
+            member_directory_link: "ธรรมเนียบสมาชิก"
+
+        page:
+            title: "ธรรมเนียบสมาชิก"
+
+    admin:
+        title: "ธรรมเนียบสมาชิก"
