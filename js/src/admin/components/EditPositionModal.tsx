@@ -24,6 +24,7 @@ export default class EditPositionModal extends Modal<EditPositionModalAttrs> {
 
   oninit(vnode: any) {
     super.oninit(vnode);
+    this.loading = false;
 
     const pos = this.attrs.position;
     this.name = Stream(pos?.name || '');
@@ -52,7 +53,6 @@ export default class EditPositionModal extends Modal<EditPositionModalAttrs> {
             value={this.name()}
             oninput={(e: Event) => this.name((e.target as HTMLInputElement).value)}
             placeholder="e.g. ประธาน, รองประธาน"
-            required
           />
         </div>
 
@@ -98,9 +98,10 @@ export default class EditPositionModal extends Modal<EditPositionModalAttrs> {
 
         <div className="Form-group">
           <Button
-            type="submit"
             className="Button Button--primary EditPositionModal-save"
             loading={this.loading}
+            disabled={!this.name().trim()}
+            onclick={() => this.savePosition()}
           >
             {app.translator.trans('core.admin.settings.submit_button')}
           </Button>
@@ -109,8 +110,9 @@ export default class EditPositionModal extends Modal<EditPositionModalAttrs> {
     );
   }
 
-  onsubmit(e: SubmitEvent) {
-    e.preventDefault();
+  savePosition() {
+    if (!this.name().trim()) return;
+
     this.loading = true;
 
     const isEdit = !!this.attrs.position?.id;

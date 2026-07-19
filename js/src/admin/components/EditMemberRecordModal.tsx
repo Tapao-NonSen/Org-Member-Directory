@@ -44,6 +44,7 @@ export default class EditMemberRecordModal extends Modal<EditMemberRecordModalAt
 
   oninit(vnode: any) {
     super.oninit(vnode);
+    this.loading = false;
 
     const rec = this.attrs.record;
     this.selectedUser = Stream(rec?.user || null);
@@ -196,10 +197,10 @@ export default class EditMemberRecordModal extends Modal<EditMemberRecordModalAt
 
         <div className="Form-group">
           <Button
-            type="submit"
             className="Button Button--primary"
             loading={this.loading}
             disabled={!this.selectedUser()}
+            onclick={() => this.saveMember()}
           >
             {app.translator.trans('core.admin.settings.submit_button')}
           </Button>
@@ -236,9 +237,7 @@ export default class EditMemberRecordModal extends Modal<EditMemberRecordModalAt
       });
   }
 
-  onsubmit(e: SubmitEvent) {
-    e.preventDefault();
-
+  saveMember() {
     const user = this.selectedUser();
     if (!user) return;
 
