@@ -1,5 +1,4 @@
 /vendor/
 /js/node_modules/
-# Flarum extensions normally commit js/dist/ so the extension works without a JS
-# build step on install; left ignored for now while the frontend is still WIP.
 /js/dist/
+/docs/
