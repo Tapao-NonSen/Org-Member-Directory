@@ -15,6 +15,7 @@ export interface UserSummary {
 export interface MemberRecordData {
   id?: number;
   userId: number;
+  name?: string | null;
   positionId?: number | null;
   cohort?: string | null;
   startedAt?: string | null;
@@ -34,6 +35,7 @@ export default class EditMemberRecordModal extends Modal<EditMemberRecordModalAt
   searchQuery!: Stream<string>;
   searchResults!: UserSummary[];
   isSearching!: boolean;
+  name!: Stream<string>;
   positionId!: Stream<string>;
   cohort!: Stream<string>;
   startedAt!: Stream<string>;
@@ -49,6 +51,7 @@ export default class EditMemberRecordModal extends Modal<EditMemberRecordModalAt
     this.searchResults = [];
     this.isSearching = false;
 
+    this.name = Stream(rec?.name || '');
     this.positionId = Stream(rec?.positionId ? String(rec.positionId) : '');
     this.cohort = Stream(rec?.cohort || '');
     this.startedAt = Stream(rec?.startedAt || '');
@@ -127,6 +130,15 @@ export default class EditMemberRecordModal extends Modal<EditMemberRecordModalAt
               )}
             </div>
           )}
+        </div>
+
+        <div className="Form-group">
+          <label>{app.translator.trans('tapao-org-member-directory.admin.members.name_label', {}, 'Name Option')}</label>
+          <input
+            className="FormControl"
+            bidi={this.name}
+            placeholder="Custom Name (optional)"
+          />
         </div>
 
         <div className="Form-group">
@@ -241,6 +253,7 @@ export default class EditMemberRecordModal extends Modal<EditMemberRecordModalAt
         url,
         body: {
           userId: user.id,
+          name: this.name() || null,
           positionId: posId ? Number(posId) : null,
           cohort: this.cohort() || null,
           startedAt: this.startedAt() || null,

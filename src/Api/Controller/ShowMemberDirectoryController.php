@@ -127,6 +127,7 @@ class ShowMemberDirectoryController implements RequestHandlerInterface
     {
         $data = [
             'id' => $record->id,
+            'name' => $record->name,
             'cohort' => $record->cohort,
             'startedAt' => $record->started_at?->toDateString(),
             'endedAt' => $record->ended_at?->toDateString(),

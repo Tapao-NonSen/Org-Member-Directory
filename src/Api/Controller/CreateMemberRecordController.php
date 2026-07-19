@@ -38,6 +38,7 @@ class CreateMemberRecordController implements RequestHandlerInterface
         return [
             'id' => $record->id,
             'userId' => $record->user_id,
+            'name' => $record->name,
             'positionId' => $record->position_id,
             'cohort' => $record->cohort,
             'startedAt' => $record->started_at?->toDateString(),

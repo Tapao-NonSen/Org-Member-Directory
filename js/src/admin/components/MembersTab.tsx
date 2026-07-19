@@ -89,7 +89,7 @@ export default class MembersTab extends Component<MembersTabAttrs> {
                   <tr>
                     <td>
                       <div className="OrgMemberDirectory-userCell">
-                        <span className="font-weight-bold">{rec.user?.displayName || 'Unknown'}</span>
+                        <span className="font-weight-bold">{rec.name || rec.user?.displayName || 'Unknown'}</span>
                         <span className="text-muted text-small"> (@{rec.user?.username})</span>
                       </div>
                     </td>

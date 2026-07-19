@@ -72,6 +72,15 @@ declare module 'flarum/common/components/LoadingIndicator' {
   export default class LoadingIndicator extends Component<any> {}
 }
 
+declare module 'flarum/common/components/Page' {
+  import Component from 'flarum/common/Component';
+  export default class Page<A = any> extends Component<A> {
+    bodyClass: string;
+    scrollTopOnCreate: boolean;
+    useBrowserScrollRestoration: boolean;
+  }
+}
+
 declare module 'flarum/common/utils/Stream' {
   interface Stream<T> {
     (): T;
@@ -87,6 +96,9 @@ declare module 'flarum/common/extenders' {
       page(component: any): any;
       setting(callback: () => any, priority?: number): any;
       permission(callback: () => any, type?: string, priority?: number): any;
+    };
+    Routes: new () => {
+      add(name: string, path: string, component: any): any;
     };
     [key: string]: any;
   };

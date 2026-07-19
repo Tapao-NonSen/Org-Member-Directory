@@ -22,7 +22,7 @@ final class MemberRecordValidator
 {
     /**
      * @param array<string, mixed> $body
-     * @return array{user_id?: int, position_id?: int|null, cohort?: string|null, started_at?: string|null, ended_at?: string|null, sort_order?: int}
+     * @return array{user_id?: int, name?: string|null, position_id?: int|null, cohort?: string|null, started_at?: string|null, ended_at?: string|null, sort_order?: int}
      */
     public static function validate(array $body, bool $isCreate): array
     {
@@ -36,6 +36,18 @@ final class MemberRecordValidator
                 $errors['userId'] = 'The userId field must reference an existing user.';
             } else {
                 $data['user_id'] = (int) $userId;
+            }
+        }
+
+        if (Arr::has($body, 'name')) {
+            $name = Arr::get($body, 'name');
+
+            if ($name === null || $name === '') {
+                $data['name'] = null;
+            } elseif (! is_string($name) || mb_strlen($name) > 255) {
+                $errors['name'] = 'The name field must not exceed 255 characters.';
+            } else {
+                $data['name'] = $name;
             }
         }
 

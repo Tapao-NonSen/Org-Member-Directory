@@ -22,7 +22,10 @@ export default class ImportTab extends Component<ImportTabAttrs> {
   groups: GroupData[] = [];
   loadingGroups: boolean = true;
   isImporting: boolean = false;
+  isImportingCsv: boolean = false;
+  csvFile: File | null = null;
   resultMessage: string | null = null;
+  csvResultMessage: string | null = null;
 
   oninit(vnode: any) {
     super.oninit(vnode);
@@ -98,6 +101,47 @@ export default class ImportTab extends Component<ImportTabAttrs> {
             </div>
           </form>
         )}
+
+        <hr style={{ margin: '30px 0' }} />
+
+        <h2>{app.translator.trans('tapao-org-member-directory.admin.import.csv_title', {}, 'Import from CSV')}</h2>
+        <p className="helpText">{app.translator.trans('tapao-org-member-directory.admin.import.csv_description', {}, 'Upload a CSV file with headers: username, name, position_id, cohort, started_at, ended_at, sort_order')}</p>
+
+        {this.csvResultMessage && (
+          <div className="Alert Alert--success OrgMemberDirectory-importResult">
+            {this.csvResultMessage}
+          </div>
+        )}
+
+        <form onsubmit={(e: SubmitEvent) => this.submitCsvImport(e)}>
+          <div className="Form-group">
+            <input
+              type="file"
+              accept=".csv"
+              className="FormControl"
+              onchange={(e: Event) => {
+                const target = e.target as HTMLInputElement;
+                if (target.files && target.files.length > 0) {
+                  this.csvFile = target.files[0];
+                } else {
+                  this.csvFile = null;
+                }
+              }}
+            />
+          </div>
+
+          <div className="Form-group">
+            <Button
+              type="submit"
+              className="Button Button--primary"
+              loading={this.isImportingCsv}
+              disabled={!this.csvFile}
+              icon="fas fa-file-csv"
+            >
+              {app.translator.trans('tapao-org-member-directory.admin.import.csv_submit_button', {}, 'Import CSV')}
+            </Button>
+          </div>
+        </form>
       </div>
     );
   }
@@ -131,6 +175,54 @@ export default class ImportTab extends Component<ImportTabAttrs> {
         this.isImporting = false;
         m.redraw();
         throw err;
+      });
+  }
+
+  submitCsvImport(e: SubmitEvent) {
+    e.preventDefault();
+    if (!this.csvFile) return;
+
+    this.isImportingCsv = true;
+    this.csvResultMessage = null;
+
+    const data = new FormData();
+    data.append('csv', this.csvFile);
+
+    app
+      .request({
+        method: 'POST',
+        url: `${app.forum.attribute('apiUrl')}/member-directory/import-csv`,
+        body: data,
+        serialize: (obj: any) => obj, // Prevent Flarum from converting FormData to JSON
+      })
+      .then((res: any) => {
+        this.isImportingCsv = false;
+        this.csvResultMessage = app.translator.trans('tapao-org-member-directory.admin.import.csv_success_result', {
+          created: res.created,
+          updated: res.updated,
+        }, `Successfully imported! Created ${res.created} records and updated ${res.updated}.`) as string;
+        
+        if (res.errors && res.errors.length > 0) {
+          this.csvResultMessage += ` However, there were some errors: \n${res.errors.join('\n')}`;
+        }
+        
+        this.csvFile = null;
+        // Reset file input
+        const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+        if (fileInput) fileInput.value = '';
+
+        this.attrs.onRefresh();
+        m.redraw();
+      })
+      .catch((err: any) => {
+        this.isImportingCsv = false;
+        m.redraw();
+        
+        if (err.response && err.response.errors && err.response.errors.length > 0) {
+           this.csvResultMessage = `Error: ${err.response.errors[0].detail}`;
+        } else {
+           throw err;
+        }
       });
   }
 }

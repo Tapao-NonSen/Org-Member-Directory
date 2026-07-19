@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * @property int $id
  * @property int $user_id
+ * @property string|null $name
  * @property int|null $position_id
  * @property string|null $cohort
  * @property \Carbon\Carbon|null $started_at
@@ -28,7 +29,7 @@ class MemberRecord extends AbstractModel
 {
     protected $table = 'member_directory_members';
 
-    protected $fillable = ['user_id', 'position_id', 'cohort', 'started_at', 'ended_at', 'sort_order'];
+    protected $fillable = ['user_id', 'name', 'position_id', 'cohort', 'started_at', 'ended_at', 'sort_order'];
 
     protected $casts = [
         'started_at' => 'date',

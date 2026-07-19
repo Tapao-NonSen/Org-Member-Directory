@@ -11,6 +11,7 @@ use Tapao\OrgMemberDirectory\Api\Controller\CreateMemberRecordController;
 use Tapao\OrgMemberDirectory\Api\Controller\CreatePositionController;
 use Tapao\OrgMemberDirectory\Api\Controller\DeleteMemberRecordController;
 use Tapao\OrgMemberDirectory\Api\Controller\DeletePositionController;
+use Tapao\OrgMemberDirectory\Api\Controller\ImportCsvController;
 use Tapao\OrgMemberDirectory\Api\Controller\ImportFromGroupController;
 use Tapao\OrgMemberDirectory\Api\Controller\ShowMemberDirectoryController;
 use Tapao\OrgMemberDirectory\Api\Controller\UpdateMemberRecordController;
@@ -36,7 +37,8 @@ return [
         ->post('/member-directory/members', 'tapao-member-directory.members.create', CreateMemberRecordController::class)
         ->patch('/member-directory/members/{id}', 'tapao-member-directory.members.update', UpdateMemberRecordController::class)
         ->delete('/member-directory/members/{id}', 'tapao-member-directory.members.delete', DeleteMemberRecordController::class)
-        ->post('/member-directory/import', 'tapao-member-directory.import', ImportFromGroupController::class),
+        ->post('/member-directory/import', 'tapao-member-directory.import', ImportFromGroupController::class)
+        ->post('/member-directory/import-csv', 'tapao-member-directory.import-csv', ImportCsvController::class),
 
     (new Extend\Settings)
         ->default('member-directory.date_granularity', 'year')
