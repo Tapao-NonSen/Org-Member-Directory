@@ -108,7 +108,7 @@ export default class ImportTab extends Component<ImportTabAttrs> {
         <hr style={{ margin: '30px 0' }} />
 
         <h2>{app.translator.trans('tapao-org-member-directory.admin.import.csv_title', {}, 'Import from CSV')}</h2>
-        <p className="helpText">{app.translator.trans('tapao-org-member-directory.admin.import.csv_description', {}, 'Upload a CSV file with a username column. Column order does not matter; dates accept YYYY-MM-DD or DD/MM/YYYY.')}</p>
+        <p className="helpText">{app.translator.trans('tapao-org-member-directory.admin.import.csv_description', {}, 'Upload a CSV file with a username column. Column order does not matter. The position column takes the sort number shown in the Positions table, or a position name. Dates accept YYYY-MM-DD or DD/MM/YYYY.')}</p>
 
         {this.csvResultMessage && (
           <div

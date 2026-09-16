@@ -133,24 +133,21 @@ class ImportCsvController implements RequestHandlerInterface
                 continue;
             }
 
-            // A position_order column means the number shown in the admin's
-            // sort column; position_id/position means the database id or name.
-            $byOrder = $value('positionOrder') !== '';
-            $position = $byOrder ? $value('positionOrder') : $value('positionId');
+            $byDbId = $value('positionDbId') !== '';
+            $position = $byDbId ? $value('positionDbId') : $value('position');
 
             if ($position !== '') {
-                $resolved = $byOrder
-                    ? Position::where('sort_order', (int) $position)->orderBy('id')->value('id')
-                    : $this->resolvePosition($position);
+                $resolved = $this->resolvePosition($position, $byDbId);
 
                 if ($resolved === null) {
                     $skipped++;
-                    $column = $byOrder ? 'position_order' : 'position';
-                    $errors[] = "Row {$rowNum}: {$column} '{$position}' matches no position, skipped.";
+                    $errors[] = $byDbId
+                        ? "Row {$rowNum}: no position with database ID '{$position}', skipped."
+                        : "Row {$rowNum}: no position with sort number or name '{$position}', skipped.";
                     continue;
                 }
 
-                $body['positionId'] = (int) $resolved;
+                $body['positionId'] = $resolved;
             }
 
             try {
@@ -198,14 +195,29 @@ class ImportCsvController implements RequestHandlerInterface
     }
 
     /**
-     * Accepts either a numeric position id or a position name.
+     * Resolves a CSV position cell to a position id.
+     *
+     * A number means the ลำดับ / sort number shown in the admin's position
+     * table, NOT the database id — that is the number admins can see, so it is
+     * the one their sheets carry. Text means the position name. The database id
+     * is only used when the sheet asks for it with a position_db_id column.
      */
-    private function resolvePosition(string $value): ?int
+    private function resolvePosition(string $value, bool $byDatabaseId): ?int
     {
-        if (is_numeric($value)) {
+        if (! is_numeric($value)) {
+            $id = Position::where('name', $value)->orderBy('id')->value('id');
+
+            return $id === null ? null : (int) $id;
+        }
+
+        if ($byDatabaseId) {
             return Position::whereKey((int) $value)->exists() ? (int) $value : null;
         }
 
-        return Position::where('name', $value)->value('id');
+        // ponytail: sort_order is not unique; lowest id wins on a tie. Fine
+        // until someone deliberately gives two positions the same ลำดับ.
+        $id = Position::where('sort_order', (int) $value)->orderBy('id')->value('id');
+
+        return $id === null ? null : (int) $id;
     }
 }

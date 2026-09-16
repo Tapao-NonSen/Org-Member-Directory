@@ -24,15 +24,19 @@ final class CsvHeader
         'user' => 'username',
         'name' => 'name',
         'displayname' => 'name',
-        'position' => 'positionId',
-        'positionid' => 'positionId',
-        'positionname' => 'positionId',
-        // Separate column, separate meaning: the number shown in the admin's
-        // ลำดับ / sort column, not the database id. Keeping them distinct is
-        // what stops a sheet of sort numbers importing as ids, one row off.
-        'positionorder' => 'positionOrder',
-        'positionsort' => 'positionOrder',
-        'positionsortorder' => 'positionOrder',
+        // A number here is the ลำดับ / sort number the admin screen shows
+        // against each position — that is the only position number admins can
+        // actually see, so it is what ends up in hand-built sheets. Text here
+        // is matched against the position name instead.
+        'position' => 'position',
+        'positionid' => 'position',
+        'positionname' => 'position',
+        'positionorder' => 'position',
+        'positionsort' => 'position',
+        'positionsortorder' => 'position',
+        // Escape hatch for the actual database id, for anyone who wants it.
+        'positiondbid' => 'positionDbId',
+        'positiondatabaseid' => 'positionDbId',
         'cohort' => 'cohort',
         'startedat' => 'startedAt',
         'startdate' => 'startedAt',

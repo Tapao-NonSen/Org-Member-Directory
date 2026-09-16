@@ -95,7 +95,7 @@ tapao-org-member-directory:
         import:
             title: "Import Members from Group"
             csv_title: "Import via CSV"
-            csv_description: "Upload a CSV file with a username column. Recognised columns, in any order: username, name, position_id, cohort, started_at, ended_at, sort_order — extra columns are ignored. Use position_id for the database ID, or position_order for the number shown in the Positions sort column. Dates accept YYYY-MM-DD or DD/MM/YYYY. A username already in the directory is overwritten; a new one is created. Rows with no username, an unknown user or an unknown position are skipped and listed below."
+            csv_description: "Upload a CSV file with a username column. Recognised columns, in any order: username, name, position_id, cohort, started_at, ended_at, sort_order — extra columns are ignored. The position column takes the sort number shown in the Positions table (or a position name) — not the database ID. Use a position_db_id column if you really want to match on ID. Dates accept YYYY-MM-DD or DD/MM/YYYY. A username already in the directory is overwritten; a new one is created. Rows with no username, an unknown user or an unknown position are skipped and listed below."
             csv_submit_button: "Import CSV"
             csv_success_result: "Import finished: created {created}, updated {updated}, skipped {skipped}."
             description: "One-time setup tool: copies users from a Flarum group into member directory records. Users who already exist in the directory will be skipped."
