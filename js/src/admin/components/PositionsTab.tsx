@@ -43,6 +43,7 @@ export default class PositionsTab extends Component<PositionsTabAttrs> {
           <table className="OrgMemberDirectory-table">
             <thead>
               <tr>
+                <th>{app.translator.trans('tapao-org-member-directory.admin.positions.col_id', {}, 'ID')}</th>
                 <th>{app.translator.trans('tapao-org-member-directory.admin.positions.col_name')}</th>
                 <th>{app.translator.trans('tapao-org-member-directory.admin.positions.col_color')}</th>
                 <th>{app.translator.trans('tapao-org-member-directory.admin.positions.col_sort')}</th>
@@ -53,6 +54,7 @@ export default class PositionsTab extends Component<PositionsTabAttrs> {
             <tbody>
               {positions.map((pos) => (
                 <tr>
+                  <td className="OrgMemberDirectory-idCell">{pos.id}</td>
                   <td className="OrgMemberDirectory-posName font-weight-bold">{pos.name}</td>
                   <td>
                     {pos.color ? (

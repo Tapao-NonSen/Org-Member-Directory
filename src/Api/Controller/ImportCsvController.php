@@ -133,35 +133,45 @@ class ImportCsvController implements RequestHandlerInterface
                 continue;
             }
 
-            $position = $value('positionId');
+            // A position_order column means the number shown in the admin's
+            // sort column; position_id/position means the database id or name.
+            $byOrder = $value('positionOrder') !== '';
+            $position = $byOrder ? $value('positionOrder') : $value('positionId');
 
-            // Auto-increment ids start at 1, so a spreadsheet "0" means no position.
-            if ($position !== '' && $position !== '0') {
-                $resolved = $this->resolvePosition($position);
+            if ($position !== '') {
+                $resolved = $byOrder
+                    ? Position::where('sort_order', (int) $position)->orderBy('id')->value('id')
+                    : $this->resolvePosition($position);
 
                 if ($resolved === null) {
                     $skipped++;
-                    $errors[] = "Row {$rowNum}: position '{$position}' not found, skipped.";
+                    $column = $byOrder ? 'position_order' : 'position';
+                    $errors[] = "Row {$rowNum}: {$column} '{$position}' matches no position, skipped.";
                     continue;
                 }
 
-                $body['positionId'] = $resolved;
+                $body['positionId'] = (int) $resolved;
             }
 
             try {
                 $validated = MemberRecordValidator::validate($body, true);
 
-                // Same duplicate key the admin create form uses, so re-uploading
-                // a sheet updates rows in place instead of doubling them.
-                $existing = MemberRecord::duplicateOf(
-                    $validated['user_id'],
-                    $validated['position_id'] ?? null,
-                    $validated['cohort'] ?? null
-                )->first();
+                // The sheet is authoritative per username: an existing member is
+                // overwritten in place (position included), a new one is created.
+                // Keyed on the user alone, so correcting a column and re-uploading
+                // fixes the existing rows instead of doubling them.
+                $existing = MemberRecord::where('user_id', $user->id)
+                    ->orderBy('id')
+                    ->get();
 
-                if ($existing) {
-                    $existing->fill($validated)->save();
+                if ($existing->isNotEmpty()) {
+                    $existing->first()->fill($validated)->save();
                     $updated++;
+
+                    if ($existing->count() > 1) {
+                        $errors[] = "Row {$rowNum}: '{$username}' has {$existing->count()} records; "
+                            ."updated the earliest one, the other(s) were left untouched.";
+                    }
                 } else {
                     MemberRecord::create($validated);
                     $created++;

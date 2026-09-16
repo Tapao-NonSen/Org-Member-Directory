@@ -27,6 +27,12 @@ final class CsvHeader
         'position' => 'positionId',
         'positionid' => 'positionId',
         'positionname' => 'positionId',
+        // Separate column, separate meaning: the number shown in the admin's
+        // ลำดับ / sort column, not the database id. Keeping them distinct is
+        // what stops a sheet of sort numbers importing as ids, one row off.
+        'positionorder' => 'positionOrder',
+        'positionsort' => 'positionOrder',
+        'positionsortorder' => 'positionOrder',
         'cohort' => 'cohort',
         'startedat' => 'startedAt',
         'startdate' => 'startedAt',

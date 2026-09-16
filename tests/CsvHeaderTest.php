@@ -86,4 +86,12 @@ assert(CsvHeader::normalizeDate('') === null, 'empty is null');
 assert(CsvHeader::normalizeDate('31/02/2024') === null, 'impossible date rejected');
 assert(CsvHeader::normalizeDate('Aug 14 2024') === null, 'unparseable rejected');
 
+// position_id and position_order are distinct columns: a sheet of sort
+// numbers must not be read as database ids (that shifted every row by one).
+$columns = CsvHeader::map(['username', 'position_id', 'position_order']);
+assert($columns['positionId'] === 1, 'position_id maps to the id column');
+assert($columns['positionOrder'] === 2, 'position_order is its own column');
+assert(! isset(CsvHeader::map(['username', 'Position Order'])['positionId']), 'position_order is never read as an id');
+assert(CsvHeader::map(['username', 'Position'])['positionId'] === 1, 'bare "position" means id or name');
+
 echo "CsvHeaderTest: all assertions passed\n";
