@@ -2,6 +2,7 @@ import app from 'flarum/admin/app';
 import Modal, { IInternalModalAttrs } from 'flarum/common/components/Modal';
 import Button from 'flarum/common/components/Button';
 import Select from 'flarum/common/components/Select';
+import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import Stream from 'flarum/common/utils/Stream';
 import { PositionData } from './EditPositionModal';
 
@@ -35,6 +36,10 @@ export default class EditMemberRecordModal extends Modal<EditMemberRecordModalAt
   searchQuery!: Stream<string>;
   searchResults!: UserSummary[];
   isSearching!: boolean;
+  searchError!: string | null;
+  searchDebounce?: number;
+  searchSeq!: number;
+  saveError!: string | null;
   name!: Stream<string>;
   positionId!: Stream<string>;
   cohort!: Stream<string>;
@@ -51,6 +56,9 @@ export default class EditMemberRecordModal extends Modal<EditMemberRecordModalAt
     this.searchQuery = Stream('');
     this.searchResults = [];
     this.isSearching = false;
+    this.searchError = null;
+    this.searchSeq = 0;
+    this.saveError = null;
 
     this.name = Stream(rec?.name || '');
     this.positionId = Stream(rec?.positionId ? String(rec.positionId) : '');
@@ -116,21 +124,41 @@ export default class EditMemberRecordModal extends Modal<EditMemberRecordModalAt
                   this.performUserSearch(val);
                 }}
               />
-              {this.searchResults.length > 0 && (
-                <div className="Dropdown-menu OrgMemberDirectory-searchResults">
-                  {this.searchResults.map((u) => (
-                    <button
-                      type="button"
-                      className="Dropdown-item Button"
-                      onclick={() => {
-                        this.selectedUser(u);
-                        this.searchResults = [];
-                        this.searchQuery('');
-                      }}
-                    >
-                      <span>{u.displayName} (@{u.username})</span>
-                    </button>
-                  ))}
+              {this.searchQuery().trim() !== '' && (
+                <div className="OrgMemberDirectory-searchResults">
+                  {this.isSearching ? (
+                    <div className="OrgMemberDirectory-searchStatus">
+                      <LoadingIndicator display="inline" size="small" />
+                    </div>
+                  ) : this.searchError ? (
+                    <div className="OrgMemberDirectory-searchStatus OrgMemberDirectory-searchError">
+                      {this.searchError}
+                    </div>
+                  ) : this.searchResults.length === 0 ? (
+                    <div className="OrgMemberDirectory-searchStatus">
+                      {app.translator.trans(
+                        'tapao-org-member-directory.admin.members.user_no_results',
+                        {},
+                        'No users found'
+                      )}
+                    </div>
+                  ) : (
+                    this.searchResults.map((u) => (
+                      <button
+                        type="button"
+                        key={u.id}
+                        className="Button"
+                        onclick={() => {
+                          this.searchSeq++;
+                          this.selectedUser(u);
+                          this.searchResults = [];
+                          this.searchQuery('');
+                        }}
+                      >
+                        <span>{u.displayName} (@{u.username})</span>
+                      </button>
+                    ))
+                  )}
                 </div>
               )}
             </div>
@@ -199,6 +227,10 @@ export default class EditMemberRecordModal extends Modal<EditMemberRecordModalAt
           />
         </div>
 
+        {this.saveError && (
+          <div className="Alert Alert--error">{this.saveError}</div>
+        )}
+
         <div className="Form-group">
           <Button
             className="Button Button--primary"
@@ -213,32 +245,59 @@ export default class EditMemberRecordModal extends Modal<EditMemberRecordModalAt
     );
   }
 
+  onremove() {
+    clearTimeout(this.searchDebounce);
+  }
+
   performUserSearch(query: string) {
-    if (!query || query.trim().length < 2) {
+    clearTimeout(this.searchDebounce);
+
+    const term = (query || '').trim();
+
+    if (!term) {
       this.searchResults = [];
+      this.isSearching = false;
+      this.searchError = null;
       m.redraw();
       return;
     }
 
     this.isSearching = true;
+    this.searchError = null;
+    m.redraw();
 
-    app.store
-      .find('users', { filter: { q: query }, page: { limit: 5 } })
-      .then((users: any[]) => {
-        this.searchResults = users.map((u: any) => ({
-          id: Number(u.id()),
-          username: u.username(),
-          displayName: u.displayName(),
-          avatarUrl: u.avatarUrl(),
-        }));
-        this.isSearching = false;
-        m.redraw();
-      })
-      .catch(() => {
-        this.searchResults = [];
-        this.isSearching = false;
-        m.redraw();
-      });
+    this.searchDebounce = window.setTimeout(() => {
+      // Only the newest request is allowed to write results, so a slow
+      // response for an earlier keystroke can't clobber a newer one.
+      const seq = ++this.searchSeq;
+
+      app
+        .request({
+          method: 'GET',
+          url: `${app.forum.attribute('apiUrl')}/users?filter[q]=${encodeURIComponent(term)}&page[limit]=10`,
+        })
+        .then((res: any) => {
+          if (seq !== this.searchSeq) return;
+
+          this.searchResults = (res?.data || []).map((u: any) => ({
+            id: Number(u.id),
+            username: u.attributes?.username ?? '',
+            displayName: u.attributes?.displayName ?? u.attributes?.username ?? '',
+            avatarUrl: u.attributes?.avatarUrl ?? null,
+          }));
+          this.isSearching = false;
+          m.redraw();
+        })
+        .catch((err: any) => {
+          if (seq !== this.searchSeq) return;
+
+          this.searchResults = [];
+          this.isSearching = false;
+          this.searchError =
+            err?.response?.errors?.[0]?.detail || err?.message || 'User search failed.';
+          m.redraw();
+        });
+    }, 250);
   }
 
   saveMember() {
@@ -246,6 +305,7 @@ export default class EditMemberRecordModal extends Modal<EditMemberRecordModalAt
     if (!user) return;
 
     this.loading = true;
+    this.saveError = null;
 
     const isEdit = !!this.attrs.record?.id;
     const url = isEdit
@@ -277,8 +337,11 @@ export default class EditMemberRecordModal extends Modal<EditMemberRecordModalAt
       })
       .catch((err: any) => {
         this.loading = false;
+        this.saveError = err?.response?.errors?.[0]?.detail || null;
         m.redraw();
-        throw err;
+
+        // A duplicate is expected user error, not a crash — it is shown inline.
+        if (!this.saveError) throw err;
       });
   }
 }

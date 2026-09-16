@@ -24,8 +24,11 @@ export default class ImportTab extends Component<ImportTabAttrs> {
   isImporting: boolean = false;
   isImportingCsv: boolean = false;
   csvFile: File | null = null;
+  fileInput: HTMLInputElement | null = null;
   resultMessage: string | null = null;
   csvResultMessage: string | null = null;
+  csvErrors: string[] = [];
+  csvFailed: boolean = false;
 
   oninit(vnode: any) {
     super.oninit(vnode);
@@ -105,11 +108,23 @@ export default class ImportTab extends Component<ImportTabAttrs> {
         <hr style={{ margin: '30px 0' }} />
 
         <h2>{app.translator.trans('tapao-org-member-directory.admin.import.csv_title', {}, 'Import from CSV')}</h2>
-        <p className="helpText">{app.translator.trans('tapao-org-member-directory.admin.import.csv_description', {}, 'Upload a CSV file with headers: username, name, position_id, cohort, started_at, ended_at, sort_order')}</p>
+        <p className="helpText">{app.translator.trans('tapao-org-member-directory.admin.import.csv_description', {}, 'Upload a CSV file with a username column. Column order does not matter; dates accept YYYY-MM-DD or DD/MM/YYYY.')}</p>
 
         {this.csvResultMessage && (
-          <div className="Alert Alert--success OrgMemberDirectory-importResult">
-            {this.csvResultMessage}
+          <div
+            className={
+              'Alert OrgMemberDirectory-importResult ' +
+              (this.csvFailed ? 'Alert--error' : this.csvErrors.length ? 'Alert--warning' : 'Alert--success')
+            }
+          >
+            <div>{this.csvResultMessage}</div>
+            {this.csvErrors.length > 0 && (
+              <ul className="OrgMemberDirectory-importErrors">
+                {this.csvErrors.map((err) => (
+                  <li>{err}</li>
+                ))}
+              </ul>
+            )}
           </div>
         )}
 
@@ -119,6 +134,9 @@ export default class ImportTab extends Component<ImportTabAttrs> {
               type="file"
               accept=".csv"
               className="FormControl"
+              oncreate={(vnode: any) => {
+                this.fileInput = vnode.dom as HTMLInputElement;
+              }}
               onchange={(e: Event) => {
                 const target = e.target as HTMLInputElement;
                 if (target.files && target.files.length > 0) {
@@ -197,29 +215,28 @@ export default class ImportTab extends Component<ImportTabAttrs> {
       })
       .then((res: any) => {
         this.isImportingCsv = false;
+        this.csvErrors = res.errors || [];
+        this.csvFailed = false;
         this.csvResultMessage = app.translator.trans('tapao-org-member-directory.admin.import.csv_success_result', {
           created: res.created,
           updated: res.updated,
-        }, `Successfully imported! Created ${res.created} records and updated ${res.updated}.`) as string;
-        
-        if (res.errors && res.errors.length > 0) {
-          this.csvResultMessage += ` However, there were some errors: \n${res.errors.join('\n')}`;
-        }
-        
+          skipped: res.skipped ?? 0,
+        }, `Created ${res.created}, updated ${res.updated}, skipped ${res.skipped ?? 0}.`) as string;
+
         this.csvFile = null;
-        // Reset file input
-        const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
-        if (fileInput) fileInput.value = '';
+        if (this.fileInput) this.fileInput.value = '';
 
         this.attrs.onRefresh();
         m.redraw();
       })
       .catch((err: any) => {
         this.isImportingCsv = false;
+        this.csvErrors = [];
+        this.csvFailed = true;
         m.redraw();
-        
+
         if (err.response && err.response.errors && err.response.errors.length > 0) {
-           this.csvResultMessage = `Error: ${err.response.errors[0].detail}`;
+           this.csvResultMessage = err.response.errors[0].detail;
         } else {
            throw err;
         }

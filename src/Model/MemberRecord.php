@@ -70,4 +70,28 @@ class MemberRecord extends AbstractModel
     {
         return $query->whereNotNull('ended_at');
     }
+
+    /**
+     * A member's identity in the directory: same user, same position, same
+     * cohort. Cohort is part of the key so somebody who held a position again
+     * in a later cohort gets a second row instead of overwriting the first.
+     *
+     * Both the admin create form and the CSV import resolve duplicates through
+     * here, so the two can never disagree about what counts as one.
+     *
+     * @param Builder<MemberRecord> $query
+     * @return Builder<MemberRecord>
+     */
+    public function scopeDuplicateOf(Builder $query, int $userId, ?int $positionId, ?string $cohort): Builder
+    {
+        $query->where('user_id', $userId);
+
+        $positionId === null
+            ? $query->whereNull('position_id')
+            : $query->where('position_id', $positionId);
+
+        return ($cohort === null || $cohort === '')
+            ? $query->whereNull('cohort')
+            : $query->where('cohort', $cohort);
+    }
 }

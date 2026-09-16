@@ -45,7 +45,7 @@ class ShowMemberDirectoryController implements RequestHandlerInterface
         $positions = $positionsQuery
             ->orderBy('sort_order')
             ->with(['members' => function ($query) {
-                $query->current()->with('user')->orderBy('sort_order');
+                $query->current()->with('user')->orderBy('sort_order')->orderBy('id');
             }])
             ->get();
 
@@ -68,6 +68,7 @@ class ShowMemberDirectoryController implements RequestHandlerInterface
             ->whereNull('position_id')
             ->with('user')
             ->orderBy('sort_order')
+            ->orderBy('id')
             ->get()
             ->filter(fn (MemberRecord $r) => $r->user !== null)
             ->map(fn (MemberRecord $r) => $this->serializeRecord($r, false))
@@ -79,7 +80,7 @@ class ShowMemberDirectoryController implements RequestHandlerInterface
             $pastQuery->where('cohort', $cohortFilter);
         }
 
-        $pastRecords = $pastQuery->orderBy('sort_order')->get();
+        $pastRecords = $pastQuery->orderBy('sort_order')->orderBy('id')->get();
 
         // Group in PHP (not SQL) so cohort ordering (desc, null last) is
         // consistent across MySQL/MariaDB/SQLite/Postgres, whose NULL

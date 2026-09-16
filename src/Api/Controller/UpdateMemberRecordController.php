@@ -44,6 +44,18 @@ class UpdateMemberRecordController implements RequestHandlerInterface
             throw new ValidationException(['endedAt' => 'The endedAt field must not be before startedAt.']);
         }
 
+        // Same duplicate key as create/import, checked against the merged state
+        // so an edit cannot collide a record onto an existing one.
+        $duplicate = MemberRecord::duplicateOf($record->user_id, $record->position_id, $record->cohort)
+            ->whereKeyNot($record->id)
+            ->exists();
+
+        if ($duplicate) {
+            throw new ValidationException([
+                'userId' => 'Another record already covers that user, position and cohort.',
+            ]);
+        }
+
         $record->save();
 
         return new JsonResponse($this->serialize($record));

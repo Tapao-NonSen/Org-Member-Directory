@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Tapao\OrgMemberDirectory\Api\Controller;
 
+use Flarum\Foundation\ValidationException;
 use Flarum\Http\RequestUtil;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
@@ -24,6 +25,18 @@ class CreateMemberRecordController implements RequestHandlerInterface
 
         $body = (array) $request->getParsedBody();
         $data = MemberRecordValidator::validate($body, true);
+
+        $duplicate = MemberRecord::duplicateOf(
+            $data['user_id'],
+            $data['position_id'] ?? null,
+            $data['cohort'] ?? null
+        )->first();
+
+        if ($duplicate !== null) {
+            throw new ValidationException([
+                'userId' => 'This user already has a record for that position and cohort. Edit the existing record instead.',
+            ]);
+        }
 
         $record = MemberRecord::create($data);
 
