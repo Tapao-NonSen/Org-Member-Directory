@@ -16,12 +16,16 @@ use Tapao\OrgMemberDirectory\Api\Controller\ImportFromGroupController;
 use Tapao\OrgMemberDirectory\Api\Controller\ShowMemberDirectoryController;
 use Tapao\OrgMemberDirectory\Api\Controller\UpdateMemberRecordController;
 use Tapao\OrgMemberDirectory\Api\Controller\UpdatePositionController;
+use Tapao\OrgMemberDirectory\Content\MemberDirectoryContent;
 
 return [
     (new Extend\Frontend('forum'))
         ->js(__DIR__ . '/js/dist/forum.js')
         ->css(__DIR__ . '/less/forum.less')
-        ->route('/members', 'members'),
+        ->route('/members', 'members', MemberDirectoryContent::class),
+
+    (new Extend\View)
+        ->namespace('tapao-org-member-directory', __DIR__ . '/views'),
 
     (new Extend\Frontend('admin'))
         ->js(__DIR__ . '/js/dist/admin.js')
